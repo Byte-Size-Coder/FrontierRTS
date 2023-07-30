@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class UnitCommand : MonoBehaviour
+public class UnitCommandHandler : MonoBehaviour
 {
     [SerializeField] private UnitSelectionHandler unitSelectionHandler;
     [SerializeField] private LayerMask layerMask = new LayerMask();

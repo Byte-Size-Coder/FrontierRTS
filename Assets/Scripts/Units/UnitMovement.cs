@@ -9,6 +9,7 @@ public class UnitMovement : NetworkBehaviour
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private Animator animator;
     [SerializeField] private Targeter targeter;
+    [SerializeField] private UnitAttack unitAttack;
     [SerializeField] private float chaseRange = 10.0f;
 
     [SyncVar] private float speed = 0f;
@@ -35,14 +36,15 @@ public class UnitMovement : NetworkBehaviour
 
         if (target == null) { return false; }
 
-        if((target.transform.position - transform.position).sqrMagnitude > (chaseRange * chaseRange))
+        if(BSCUtil.OutOfRange(target.transform.position, transform.position, chaseRange))
         {
             agent.SetDestination(target.transform.position);
-            //transform.LookAt(target.transform);
+            unitAttack.DisengageAttack();
         }
         else if(agent.hasPath)
         {
             agent.ResetPath();
+            unitAttack.EngageAttack();
         }
 
         return true;
