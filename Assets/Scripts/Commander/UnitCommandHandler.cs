@@ -11,6 +11,13 @@ public class UnitCommandHandler : MonoBehaviour
     private void Start()
     {
         mainCamera = Camera.main;
+
+        GameHandler.ClientOnGameOver += ClientHandleGameOver;
+    }
+
+    private void OnDestroy()
+    {
+        GameHandler.ClientOnGameOver -= ClientHandleGameOver;
     }
 
     private void Update()
@@ -21,8 +28,9 @@ public class UnitCommandHandler : MonoBehaviour
 
         if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, layerMask)) { return; }
 
-        if (hit.collider.TryGetComponent<Targetable>(out Targetable target))
+        if (hit.collider.TryGetComponent(out Targetable target))
         {
+            Debug.Log("HIT TARGET");
             if (target.isOwned)
             {
                 TryMove(hit.point);
@@ -49,7 +57,12 @@ public class UnitCommandHandler : MonoBehaviour
     {
         foreach(Unit unit in unitSelectionHandler.SelectedUnits)
         {
-            unit.GetUnitMovement().CmdMove(point);
+            unit.CmdMove(point);
         }
+    }
+
+    private void ClientHandleGameOver(string winnerName)
+    {
+        enabled = false;
     }
 }

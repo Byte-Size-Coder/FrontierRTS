@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
@@ -17,7 +15,7 @@ public class Targeter : NetworkBehaviour
     [Command]
     public void CmdSetTarget(GameObject targetGameObject)
     {
-        if(!targetGameObject.TryGetComponent<Targetable>(out Targetable newTarget)) { return; }
+        if(!targetGameObject.TryGetComponent(out Targetable newTarget)) { return; }
 
         target = newTarget;
     }
@@ -27,7 +25,7 @@ public class Targeter : NetworkBehaviour
     {
         target = null;
     }
-    
+
     #endregion
  
 }

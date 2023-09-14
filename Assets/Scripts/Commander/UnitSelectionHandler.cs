@@ -20,15 +20,18 @@ public class UnitSelectionHandler : MonoBehaviour
     private void Start()
     {
         mainCamera = Camera.main;
+        player = NetworkClient.connection.identity.GetComponent<FrontierRTSPlayer>();
+
+        GameHandler.ClientOnGameOver += ClientHandleGameOver;
+    }
+
+    private void OnDestroy()
+    {
+        GameHandler.ClientOnGameOver -= ClientHandleGameOver;
     }
 
     private void Update()
     {
-        if (player == null)
-        {
-            player = NetworkClient.connection.identity.GetComponent<FrontierRTSPlayer>();
-        }
-
         if(Mouse.current.leftButton.wasPressedThisFrame)
         {
             StartSelectionArea();
@@ -41,6 +44,11 @@ public class UnitSelectionHandler : MonoBehaviour
         {
             UpdateSelectionArea();
         }
+    }
+
+    public void RemoveUnitFromSelection(Unit unit)
+    {
+        SelectedUnits.Remove(unit);
     }
 
     private void StartSelectionArea()
@@ -112,5 +120,10 @@ public class UnitSelectionHandler : MonoBehaviour
             }
         }
 
+    }
+
+    private void ClientHandleGameOver(string winnerName)
+    {
+        enabled = false;
     }
 }
