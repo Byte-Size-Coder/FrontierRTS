@@ -501,6 +501,7 @@ MonoBehaviour:
   isOverlay: 0
   HostButton: {fileID: 3572098773484012943}
   JoinButton: {fileID: 7752193786662064349}
+  useSteam: 0
 --- !u!1 &4977966197060181923
 GameObject:
   m_ObjectHideFlags: 0
